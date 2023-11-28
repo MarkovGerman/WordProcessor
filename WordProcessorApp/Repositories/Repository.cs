@@ -57,7 +57,29 @@ namespace WordProcessorApp.Repositories
                 }
             }
         }
+        public async Task SumNumberWords()
+        {
+            var sqlExpression = $"""
+            IF object_id('WordsCopy') is null
+                CREATE TABLE  WordsCopy
+                (
+                    Id INT IDENTITY PRIMARY KEY,
+                    Word NVARCHAR(30) NOT NULL,
+                    WordCount INT DEFAULT 0,
+                );
+            DELETE WordsCopy;
+            INSERT INTO WordsCopy SELECT Word, SUM(WordCount) AS WordCount FROM Words GROUP BY Word;
+            DELETE Words;
+            INSERT INTO Words SELECT Word, WordCount FROM WordsCopy;
+            """;
 
+            using (var connection = new SqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                var command = new SqlCommand(sqlExpression, connection);
+                var number = command.ExecuteNonQuery();
+            }
+        }
         public async Task AddWords(IEnumerable<KeyValuePair<string, int>> values)
         {
             var words = values.Select(item => $"(N'{item.Key}', {item.Value})");

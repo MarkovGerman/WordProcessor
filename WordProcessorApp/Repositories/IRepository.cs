@@ -6,5 +6,6 @@
         Task DeleteData();
         Task<List<string>> GetWordsWithBeginning(string start);
         Task AddWords(IEnumerable<KeyValuePair<string, int>> values);
+        Task SumNumberWords();
     }
 }

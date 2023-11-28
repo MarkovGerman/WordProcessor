@@ -47,6 +47,7 @@ public class DictionaryService : IDictionaryService
     public async Task UpdateDictionary(string path)
     {
         await AddWordsDataBase(path);
+        await SumWordCount();
         messageService.UpdatingMessage();
     }
 
@@ -73,7 +74,7 @@ public class DictionaryService : IDictionaryService
         }
         catch (Exception ex)
         {
-            messageService.ShowError("Не удаётся очистить таблицу!",$"Ошибка {ex.Message}");
+            messageService.ShowError("Не удаётся очистить таблицу!", $"Ошибка {ex.Message}");
         }
         return words;
     }
@@ -102,6 +103,17 @@ public class DictionaryService : IDictionaryService
         catch (Exception ex)
         {
             messageService.ShowError($"Не удаётся добавить слова в таблицу!", $"Ошибка {ex.Message}");
+        }
+    }
+    private async Task SumWordCount()
+    {
+        try
+        {
+            await repository.SumNumberWords();
+        }
+        catch (Exception ex)
+        {
+            messageService.ShowError($"Не удаётся обновить количество слов в таблице!", $"Ошибка {ex.Message}");
         }
     }
 }
