@@ -67,10 +67,10 @@ namespace WordProcessorApp.Repositories
                     Word NVARCHAR(30) NOT NULL,
                     WordCount INT DEFAULT 0,
                 );
-            DELETE WordsCopy;
             INSERT INTO WordsCopy SELECT Word, SUM(WordCount) AS WordCount FROM Words GROUP BY Word;
             DELETE Words;
             INSERT INTO Words SELECT Word, WordCount FROM WordsCopy;
+            DELETE WordsCopy;
             """;
 
             using (var connection = new SqlConnection(connectionString))
