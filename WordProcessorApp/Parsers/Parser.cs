@@ -3,9 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace WordProcessorApp.Parsers;
 
-public class Parser: IParser
+public class Parser : IParser
 {
-    public async Task<List<string>> ParseFile(string path)
+    public async Task<IEnumerable<string>> ParseFile(string path)
     {
         using (var fstream = File.OpenRead(path))
         {
@@ -19,7 +19,7 @@ public class Parser: IParser
         }
     }
 
-    public List<string> Parse(string text)
+    private IEnumerable<string> Parse(string text)
     {
         var regex = new Regex(@"[\wА-Яа-я\d]+[^\wА-Яа-я\d]");
         var matches = regex.Matches(text + " ");
@@ -28,8 +28,7 @@ public class Parser: IParser
         {
             var word = match.Value;
             word = String.Concat(word.Where(char.IsLetterOrDigit));
-            words.Add(word);
+            yield return word;
         }
-        return words;
     }
 }

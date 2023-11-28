@@ -11,9 +11,10 @@ namespace WordProcessorApp
         private String formerValue = String.Empty;
         private IDictionaryService dictionaryService;
 
-        public AutoCompleteTextBox()
+        public AutoCompleteTextBox(IDictionaryService service)
         {
-            dictionaryService = new DictionaryService(new Repository());
+            dictionaryService = service;
+            dictionaryService.CreateTable();
             InitializeComponent();
             ResetListBox();
         }
@@ -21,7 +22,6 @@ namespace WordProcessorApp
         private void InitializeComponent()
         {
             listBox = new ListBox();
-            dictionaryService.CreateTable();
             KeyDown += this_KeyDown;
             KeyUp += this_KeyUp;
         }

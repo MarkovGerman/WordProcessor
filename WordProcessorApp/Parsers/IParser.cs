@@ -2,5 +2,5 @@
 
 public interface IParser
 {
-    Task<List<string>> ParseFile(string path);
+    Task<IEnumerable<string>> ParseFile(string path);
 }

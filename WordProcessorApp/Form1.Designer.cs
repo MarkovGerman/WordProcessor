@@ -1,4 +1,9 @@
-﻿namespace WordProcessorApp
+﻿using Microsoft.Extensions.Logging;
+using WordProcessorApp.Parsers;
+using WordProcessorApp.Repositories;
+using WordProcessorApp.Services;
+
+namespace WordProcessorApp
 {
     partial class Form1 : Form
     {
@@ -11,6 +16,7 @@
         ///  Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// 
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -35,7 +41,7 @@
             cleanDictionaryButton = new ToolStripMenuItem();
             sqlDataAdapter1 = new Microsoft.Data.SqlClient.SqlDataAdapter();
             openFileDialog1 = new OpenFileDialog();
-            autoCompleteTextBox2 = new AutoCompleteTextBox();
+            autoCompleteTextBox2 = new AutoCompleteTextBox(this.dictionaryService);
             menuStrip2.SuspendLayout();
             SuspendLayout();
             // 
